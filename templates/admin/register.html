@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+
+{% block main %}
+<form action="{{url_for('register')}}" method="POST">
+
+  <div class="container" style="text-align: center;">
+    <div class="row">
+      <div class="col-6 col-sm-6 offset-3">
+        <div class="card p-4 m-5">
+          <h1>Register</h1>
+          <hr>
+          {% include "includes/messages.html" %}
+          <label for="fullname"><b>Fullname</b></label>
+          <input type="text" placeholder="Enter the fullname" class="form-control" name="fullname" id="fullname">
+
+          <label for="username"><b>Username</b></label>
+          <input type="text" placeholder="Enter the username" class="form-control" name="username" id="username">
+
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" class="form-control" name="password1" id="password1">
+
+          <label for="psw-repeat"><b>Repeat Password</b></label>
+          <input type="password" placeholder="Repeat Password" class="form-control" name="password2" id="password2">
+          <br>
+          <hr>
+
+          <input type="submit" value="Register" class="btn btn-success"><br>
+          <a href="{{ url_for('login') }}" class="btn btn-info">Sign in</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>
+{% endblock %}
