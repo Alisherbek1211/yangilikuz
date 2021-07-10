@@ -6,14 +6,11 @@ import os
 from uuid import uuid4
 from slugify import slugify
 import bcrypt
+from decorator import require_admin
 
 @app.route("/admin/news/")
+@require_admin
 def admin_news_list_view():
-    username = session.get("login",None)
-    password = session.get("password",None)
-
-    if not username and not password:
-        return redirect(url_for("login"))
     if ("action" and "_id") in request.args:
         try:
             _id = int(request.args.get("_id"))
@@ -45,12 +42,8 @@ def admin_news_list_view():
     return render_template("admin/news_list.html", yangiliklar = all_news)
 
 @app.route("/admin/news/create/", methods=["GET", "POST"])
+@require_admin
 def add_news_view():
-    username = session.get("login",None)
-    password = session.get("password",None)
-
-    if not username and not password:
-        return redirect(url_for("login"))
     if request.method == "POST":
         news = News()
         news.title = request.form["news_title"]
@@ -76,12 +69,8 @@ def add_news_view():
 
 
 @app.route("/create-category/", methods = ["GET","POST"])
+@require_admin
 def add_category_view():
-    username = session.get("login",None)
-    password = session.get("password",None)
-
-    if not username and not password:
-        return redirect(url_for("login"))
     category_name = request.form.get("category_name",None)
 
     if category_name:
@@ -96,12 +85,8 @@ def add_category_view():
 
 
 @app.route("/admin/news/<int:_id>/" ,methods = ["GET","POST"] )
+@require_admin
 def update_news_view(_id):
-    username = session.get("login",None)
-    password = session.get("password",None)
-
-    if not username and not password:
-        return redirect(url_for("login"))
     if request.method == "POST":
         news = News.query.filter_by(id = _id).first_or_404()
 
@@ -155,7 +140,6 @@ def login():
     return render_template("admin/login.html")
 
 
-from pprint import pprint
 @app.route("/register/", methods = ["GET","POST"])
 def register():
     if request.method == "POST":
